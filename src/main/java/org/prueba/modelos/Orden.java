@@ -42,8 +42,16 @@ public class Orden {
     }
     
 
-    //@OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
-    //private List<DetalleOrden> detallesOrden;
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
+    private List<DetalleOrden> detallesOrden;
+
+    public List<DetalleOrden> getDetallesOrden() {
+        return detallesOrden;
+    }
+
+    public void setDetallesOrden(List<DetalleOrden> detallesOrden) {
+        this.detallesOrden = detallesOrden;
+    }
 
 
 

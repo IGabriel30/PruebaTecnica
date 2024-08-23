@@ -1,5 +1,8 @@
 package org.prueba.modelos;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +37,14 @@ public class Producto {
         this.nombre = nombre;
     }
 
-     //@OneToMany(mappedBy = "productoIJGZ", cascade = CascadeType.ALL)
-    //private List<DetalleOrdenIJGZ> detallesOrden;
+     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<DetalleOrden> detallesOrden;
+
+    public List<DetalleOrden> getDetallesOrden() {
+        return detallesOrden;
+    }
+
+    public void setDetallesOrden(List<DetalleOrden> detallesOrden) {
+        this.detallesOrden = detallesOrden;
+    }
 }
