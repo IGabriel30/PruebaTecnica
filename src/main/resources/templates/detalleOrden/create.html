@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="layouts/_mainLayout">
+
+<div layout:fragment="content">
+    <h1>Nuevo Detalle de Orden</h1>
+
+    <form th:action="@{/detallesOrden/save}" th:object="${detalleOrden}" method="post">
+        <div class="form-group">
+            <label for="producto">Producto:</label>
+            <select class="form-control" id="producto" th:field="*{producto}" required>
+                <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombre}"></option> 
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="orden">Orden:</label>
+            <select class="form-control" id="orden" th:field="*{orden}" required>
+                <option th:each="orden : ${ordenes}" 
+                        th:value="${orden.id}" 
+                        th:text="${orden.id}"></option> 
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" class="form-control" id="cantidad" th:field="*{cantidad}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" class="form-control" id="precio" th:field="*{precio}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/detallesOrden}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+</div>
+</html>
