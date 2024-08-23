@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,4 +69,41 @@ public class ProductoController {
         attributes.addFlashAttribute("msg", "producto creado correctamente");
         return "redirect:/productos";
     }
+
+
+     @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        Producto producto = productoService.buscarPorId(id).get();
+        model.addAttribute("producto", producto);
+        return "producto/edit";
+    }
+
+    @PostMapping("/edit")
+    public String update(@ModelAttribute("producto") Producto producto, BindingResult result, Model model,
+            RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("producto", producto);
+            attributes.addFlashAttribute("error", "No se pudo modificar debido a un error.");
+            return "producto/edit";
+        }
+
+        productoService.crearOEditar(producto);
+        attributes.addFlashAttribute("msg", "producto modificado correctamente");
+        return "redirect:/productos";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model) {
+        Producto producto = productoService.buscarPorId(id).get();
+        model.addAttribute("producto", producto);
+        return "producto/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Producto producto, RedirectAttributes attributes) {
+        productoService.eliminarPorId(producto.getId());
+        attributes.addFlashAttribute("msg", "producto eliminado correctamente");
+        return "redirect:/productos";
+    }
+
 }
