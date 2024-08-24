@@ -106,4 +106,10 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
+    public String details(@PathVariable("id") Integer id, Model model) {
+        Producto producto = productoService.buscarPorId(id).get();
+        model.addAttribute("producto", producto);
+        return "producto/details";
+    }
+
 }
