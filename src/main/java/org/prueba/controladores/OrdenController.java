@@ -63,4 +63,43 @@ public class OrdenController {
         attributes.addFlashAttribute("msg", "Orden creada correctamente");
         return "redirect:/ordenes";
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        Orden orden = ordenService.buscarPorId(id).get();
+        model.addAttribute("orden", orden);
+        return "orden/edit";
+    }
+    @PostMapping("/edit")
+    public String update(@ModelAttribute("orden") Orden orden, BindingResult result, Model model, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("orden", orden);
+            attributes.addFlashAttribute("error", "No se pudo modificar debido a un error.");
+            return "orden/edit";
+        }
+
+        ordenService.crearOEditar(orden);
+        attributes.addFlashAttribute("msg", "Orden modificada correctamente");
+        return "redirect:/ordenes";
+    }
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Long id, Model model){
+        Orden orden = ordenService.buscarPorId(id).get();
+        model.addAttribute("orden", orden);
+        return "orden/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Orden orden, RedirectAttributes attributes){
+        ordenService.eliminarPorId(orden.getId());
+        attributes.addFlashAttribute("msg", "Orden eliminada correctamente");
+        return "redirect:/ordenes";
+    }
+
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable("id") Long id, Model model) {
+        Orden orden = ordenService.buscarPorId(id).get();
+        model.addAttribute("orden", orden);
+        return "orden/details";
+    }
 }
