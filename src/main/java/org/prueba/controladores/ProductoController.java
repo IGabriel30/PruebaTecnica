@@ -106,6 +106,7 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
+    @GetMapping("/details/{id}")
     public String details(@PathVariable("id") Integer id, Model model) {
         Producto producto = productoService.buscarPorId(id).get();
         model.addAttribute("producto", producto);
